@@ -30,7 +30,6 @@ jobs:
 
       - name: Build the app (Release, generic iOS device, unsigned)
         run: |
-          set -x
           xcodebuild -target TapTheCircle \
             -project TapTheCircle.xcodeproj \
             -configuration Release \
@@ -40,7 +39,12 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            build 2>&1 | tee "$RUNNER_TEMP/build.log" || true
+            build > "$RUNNER_TEMP/build.log" 2>&1
+
+      - name: Show build log on failure
+        if: failure()
+        run: |
+          cat "$RUNNER_TEMP/build.log" || true
 
       - name: Upload build log (for debugging)
         if: failure()

@@ -63,20 +63,20 @@ jobs:
       - name: Build the app (Release, generic iOS device, unsigned)
         run: |
           set -x
-          xcodebuild \
+          xcodebuild archive \
             -project TapTheCircle.xcodeproj \
             -scheme TapTheCircle \
             -configuration Release \
             -derivedDataPath "$RUNNER_TEMP/DerivedData" \
-            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/TapTheCircle.xcarchive" \
+            -sdk iphoneos \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            build
+            CODE_SIGN_IDENTITY=""
 
       - name: Verify the built .app exists
         run: |
-          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          APP_PATH="$RUNNER_TEMP/TapTheCircle.xcarchive/Products/Applications/TapTheCircle.app"
           if [ ! -d "$APP_PATH" ]; then
             echo "error: TapTheCircle.app not found at $APP_PATH" >&2
             exit 1
@@ -85,7 +85,7 @@ jobs:
 
       - name: Verify Info.plist inside .app
         run: |
-          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          APP_PATH="$RUNNER_TEMP/TapTheCircle.xcarchive/Products/Applications/TapTheCircle.app"
           if [ ! -f "$APP_PATH/Info.plist" ]; then
             echo "error: Info.plist not found inside .app bundle" >&2
             exit 1
@@ -95,7 +95,7 @@ jobs:
       - name: Package the .app into an unsigned IPA
         id: package
         run: |
-          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          APP_PATH="$RUNNER_TEMP/TapTheCircle.xcarchive/Products/Applications/TapTheCircle.app"
           PAYLOAD_DIR="$RUNNER_TEMP/Payload"
           rm -rf "$PAYLOAD_DIR"
           mkdir -p "$PAYLOAD_DIR"

@@ -15,30 +15,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select a compatible Xcode
+      - name: Show Xcode version and project info
         run: |
-          echo "=== Available Xcode installations ==="
-          ls -d /Applications/Xcode*.app 2>/dev/null || echo "No Xcode.app bundles found in /Applications"
-          echo ""
-          echo "=== Active xcodebuild version ==="
+          echo "=== xcodebuild -version ==="
           xcodebuild -version
-
-      - name: Diagnose project and schemes
-        run: |
+          echo ""
           echo "=== xcodebuild -list ==="
           xcodebuild -list -project TapTheCircle.xcodeproj 2>&1 || true
 
-      - name: Build the app (Release, generic iOS device, unsigned)
+      - name: Build the app (simplest possible invocation)
         run: |
-          xcodebuild -target TapTheCircle \
-            -project TapTheCircle.xcodeproj \
+          xcodebuild -project TapTheCircle.xcodeproj \
+            -target TapTheCircle \
             -configuration Release \
-            -sdk iphoneos \
-            -arch arm64 \
-            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
             build > "$RUNNER_TEMP/build.log" 2>&1
 
       - name: Show build log on failure

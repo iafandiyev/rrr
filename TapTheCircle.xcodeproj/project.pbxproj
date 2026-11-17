@@ -57,6 +57,14 @@
 		8A01B2C3D4E5F6A7B8C9D0E1 = {isa = PBXProject; attributes = {
 			LastSwiftUpdateCheck = 1500;
 			LastUpgradeCheck = 1500;
+			TargetAttributes = {
+				8B01B2C3D4E5F6A7B8C9D0E2 = {
+					CreatedOnToolsVersion = 15.0;
+					DevelopmentTeam = "";
+					LastSwiftMigration = 1500;
+					ProvisioningStyle = Manual;
+				};
+			};
 		}; buildConfigurationList = D301B2C3D4E5F6A7B8C9D0F0 /* Build configuration list for PBXProject "TapTheCircle" */; compatibilityVersion = "Xcode 15.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, ); mainGroup = 8C01B2C3D4E5F6A7B8C9D0E3; productRefGroup = 8E01B2C3D4E5F6A7B8C9D0E5; projectDirPath = ""; projectRoot = ""; targets = (
 			8B01B2C3D4E5F6A7B8C9D0E2 /* TapTheCircle */
 		); };

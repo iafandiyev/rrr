@@ -19,8 +19,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show Xcode version
-        run: xcodebuild -version
+      - name: Select Xcode 15
+        run: |
+          sudo xcode-select -switch /Applications/Xcode_15.app/Contents/Developer
+          xcodebuild -version
 
       - name: Build the app (Release, generic iOS device, unsigned)
         run: |
@@ -28,38 +30,55 @@ jobs:
             -project TapTheCircle.xcodeproj \
             -scheme TapTheCircle \
             -configuration Release \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             build
 
-      - name: Locate the built .app
-        id: locate_app
+      - name: Verify the built .app exists
         run: |
-          APP_PATH=$(find ~/Library/Developer/Xcode/DerivedData -name "TapTheCircle.app" -maxdepth 6 2>/dev/null | head -n 1)
-          if [ -z "$APP_PATH" ]; then
-            echo "error: TapTheCircle.app not found" >&2
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "error: TapTheCircle.app not found at $APP_PATH" >&2
             exit 1
           fi
-          echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
+          echo "Found .app at $APP_PATH"
 
       - name: Package the .app into an unsigned IPA
         id: package
         run: |
-          APP_PATH="${{ steps.locate_app.outputs.app_path }}"
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
           PAYLOAD_DIR="$RUNNER_TEMP/Payload"
           rm -rf "$PAYLOAD_DIR"
           mkdir -p "$PAYLOAD_DIR"
           cp -R "$APP_PATH" "$PAYLOAD_DIR/"
 
-          # iTunesArtwork is optional; omit for an unsigned build.
           IPA_PATH="$RUNNER_TEMP/TapTheCircle.ipa"
           rm -f "$IPA_PATH"
           (cd "$RUNNER_TEMP" && zip -r -X "TapTheCircle.ipa" Payload)
 
           echo "ipa_path=$IPA_PATH" >> $GITHUB_OUTPUT
           ls -lh "$IPA_PATH"
+
+      - name: Verify IPA is a valid ZIP archive
+        run: |
+          IPA_PATH="${{ steps.package.outputs.ipa_path }}"
+          if ! unzip -t "$IPA_PATH" > /dev/null 2>&1; then
+            echo "error: IPA is not a valid ZIP archive" >&2
+            exit 1
+          fi
+          echo "IPA is a valid ZIP archive"
+
+      - name: Verify Payload/TapTheCircle.app inside IPA
+        run: |
+          IPA_PATH="${{ steps.package.outputs.ipa_path }}"
+          if ! unzip -l "$IPA_PATH" | grep -q 'Payload/TapTheCircle.app/'; then
+            echo "error: Payload/TapTheCircle.app not found inside IPA" >&2
+            exit 1
+          fi
+          echo "Payload/TapTheCircle.app confirmed inside IPA"
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4

@@ -62,10 +62,10 @@ struct GameView: View {
             GeometryReader { geo in
                 Color.clear
                     .onAppear { bounds = geo.size }
-                    .onChange(of: geo.size) { newSize in
+                    .onChange(of: geo.size, perform: { _, newSize in
                         bounds = newSize
                         game.placeTarget(in: newSize)
-                    }
+                    })
             }
         )
     }

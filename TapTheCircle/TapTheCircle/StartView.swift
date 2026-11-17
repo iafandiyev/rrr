@@ -3,6 +3,7 @@ import SwiftUI
 /// The welcome / start screen shown before the first game begins.
 struct StartView: View {
     let startGame: () -> Void
+    @State private var pulse = false
 
     var body: some View {
         ZStack {
@@ -32,8 +33,9 @@ struct StartView: View {
                     )
                     .frame(width: 120, height: 120)
                     .shadow(color: .white.opacity(0.35), radius: 14, x: 0, y: 8)
-                    .scaleEffect(1.0)
-                    .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: UUID())
+                    .scaleEffect(pulse ? 1.06 : 1.0)
+                    .onAppear { pulse = true }
+                    .animation(.easeInOut(duration: 1.2).repeatForever(autoreverses: true), value: pulse)
 
                 Button(action: startGame) {
                     Text("Start Game")

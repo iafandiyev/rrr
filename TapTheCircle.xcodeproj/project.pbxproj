@@ -3,218 +3,133 @@
 	archiveVersion = 1;
 	classes = {};
 	objectVersion = 52;
-	rootObject = 8A01B2C3D4E5F6A7B8C9D0E1 /* Project object */;
+	rootObject = PBXPROJECT /* Project object */;
 	objects = {
 /* Begin PBXBuildFile section */
-		B101B2C3D4E5F6A7B8C9D0F0 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A101B2C3D4E5F6A7B8C9D0F0 /* App.swift */; };
-		B201B2C3D4E5F6A7B8C9D0F0 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A201B2C3D4E5F6A7B8C9D0F0 /* GameManager.swift */; };
-		B301B2C3D4E5F6A7B8C9D0F0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A301B2C3D4E5F6A7B8C9D0F0 /* ContentView.swift */; };
-		B401B2C3D4E5F6A7B8C9D0F0 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A401B2C3D4E5F6A7B8C9D0F0 /* StartView.swift */; };
-		B501B2C3D4E5F6A7B8C9D0F0 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A501B2C3D4E5F6A7B8C9D0F0 /* GameView.swift */; };
-		B601B2C3D4E5F6A7B8C9D0F0 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A601B2C3D4E5F6A7B8C9D0F0 /* GameOverView.swift */; };
+		BF1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR1 /* App.swift */; };
+		BF2 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR2 /* GameManager.swift */; };
+		BF3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR3 /* ContentView.swift */; };
+		BF4 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR4 /* StartView.swift */; };
+		BF5 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR5 /* GameView.swift */; };
+		BF6 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FR6 /* GameOverView.swift */; };
 /* End PBXBuildFile section */
 /* Begin PBXFileReference section */
-		9001B2C3D4E5F6A7B8C9D0E7 /* TapTheCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapTheCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A101B2C3D4E5F6A7B8C9D0F0 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-		A201B2C3D4E5F6A7B8C9D0F0 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
-		A301B2C3D4E5F6A7B8C9D0F0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		A401B2C3D4E5F6A7B8C9D0F0 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
-		A501B2C3D4E5F6A7B8C9D0F0 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
-		A601B2C3D4E5F6A7B8C9D0F0 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
-		9101B2C3D4E5F6A7B8C9D0E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		PROD /* TapTheCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapTheCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FR1 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		FR2 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		FR3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FR4 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		FR5 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		FR6 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
+		INFO /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 /* Begin PBXFrameworksBuildPhase section */
-		C301B2C3D4E5F6A7B8C9D0F0 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		PHASEFRAMEWORKS /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 /* Begin PBXGroup section */
-		8D01B2C3D4E5F6A7B8C9D0E4 /* TapTheCircle */ = {
+		GROUPSRC /* TapTheCircle */ = {
 			isa = PBXGroup;
 			children = (
-				A101B2C3D4E5F6A7B8C9D0F0 /* App.swift */,
-				A201B2C3D4E5F6A7B8C9D0F0 /* GameManager.swift */,
-				A301B2C3D4E5F6A7B8C9D0F0 /* ContentView.swift */,
-				A401B2C3D4E5F6A7B8C9D0F0 /* StartView.swift */,
-				A501B2C3D4E5F6A7B8C9D0F0 /* GameView.swift */,
-				A601B2C3D4E5F6A7B8C9D0F0 /* GameOverView.swift */,
+				FR1 /* App.swift */,
+				FR2 /* GameManager.swift */,
+				FR3 /* ContentView.swift */,
+				FR4 /* StartView.swift */,
+				FR5 /* GameView.swift */,
+				FR6 /* GameOverView.swift */,
 			);
 			path = TapTheCircle;
 			sourceTree = "<group>";
 		};
-		8E01B2C3D4E5F6A7B8C9D0E5 /* Products */ = {
+		GROUPPROD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9001B2C3D4E5F6A7B8C9D0E7 /* TapTheCircle.app */,
+				PROD /* TapTheCircle.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8F01B2C3D4E5F6A7B8C9D0E6 /* Frameworks */ = {
+		GROUPFRAMEWORK /* Frameworks */ = {
 			isa = PBXGroup;
 			children = ();
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8C01B2C3D4E5F6A7B8C9D0E3 = {
+		GROUPMAIN = {
 			isa = PBXGroup;
 			children = (
-				8D01B2C3D4E5F6A7B8C9D0E4 /* TapTheCircle */,
-				8E01B2C3D4E5F6A7B8C9D0E5 /* Products */,
-				8F01B2C3D4E5F6A7B8C9D0E6 /* Frameworks */,
-				9101B2C3D4E5F6A7B8C9D0E8 /* Info.plist */,
+				GROUPSRC /* TapTheCircle */,
+				GROUPPROD /* Products */,
+				GROUPFRAMEWORK /* Frameworks */,
+				INFO /* Info.plist */,
 			);
-			mainGroup = 8C01B2C3D4E5F6A7B8C9D0E3;
-			productRefGroup = 8E01B2C3D4E5F6A7B8C9D0E5;
+			mainGroup = GROUPMAIN;
+			productRefGroup = GROUPPROD;
 			projectDirPath = "";
 			projectRoot = "";
 		};
 /* End PBXGroup section */
 /* Begin PBXNativeTarget section */
-		8B01B2C3D4E5F6A7B8C9D0E2 /* TapTheCircle */ = {
+		TARGET /* TapTheCircle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D301B2C3D4E5F6A7B8C9D0F0 /* Build configuration list for PBXNativeTarget "TapTheCircle" */;
+			buildConfigurationList = CONF_LIST;
 			buildPhases = (
-				C101B2C3D4E5F6A7B8C9D0F0 /* Sources */,
-				C201B2C3D4E5F6A7B8C9D0F0 /* Resources */,
-				C301B2C3D4E5F6A7B8C9D0F0 /* Frameworks */,
+				PHASESOURCES /* Sources */,
+				PHASERESOURCES /* Resources */,
+				PHASEFRAMEWORKS /* Frameworks */,
 			);
 			buildRules = ();
 			dependencies = ();
 			name = TapTheCircle;
 			productName = TapTheCircle;
-			productReference = 9001B2C3D4E5F6A7B8C9D0E7 /* TapTheCircle.app */;
+			productReference = PROD /* TapTheCircle.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 /* Begin PBXProject section */
-		8A01B2C3D4E5F6A7B8C9D0E1 = {
+		PBXPROJECT = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
 			};
-			buildConfigurationList = D301B2C3D4E5F6A7B8C9D0F0 /* Build configuration list for PBXProject "TapTheCircle" */;
+			buildConfigurationList = CONF_LIST;
 			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-			);
-			mainGroup = 8C01B2C3D4E5F6A7B8C9D0E3;
-			productRefGroup = 8E01B2C3D4E5F6A7B8C9D0E5;
+			knownRegions = (en, );
+			mainGroup = GROUPMAIN;
+			productRefGroup = GROUPPROD;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8B01B2C3D4E5F6A7B8C9D0E2 /* TapTheCircle */,
+				TARGET /* TapTheCircle */,
 			);
 		};
 /* End PBXProject section */
 /* Begin PBXResourcesBuildPhase section */
-		C201B2C3D4E5F6A7B8C9D0F0 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		PHASERESOURCES /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 /* Begin PBXSourcesBuildPhase section */
-		C101B2C3D4E5F6A7B8C9D0F0 /* Sources */ = {
+		PHASESOURCES /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B101B2C3D4E5F6A7B8C9D0F0 /* App.swift in Sources */,
-				B201B2C3D4E5F6A7B8C9D0F0 /* GameManager.swift in Sources */,
-				B301B2C3D4E5F6A7B8C9D0F0 /* ContentView.swift in Sources */,
-				B401B2C3D4E5F6A7B8C9D0F0 /* StartView.swift in Sources */,
-				B501B2C3D4E5F6A7B8C9D0F0 /* GameView.swift in Sources */,
-				B601B2C3D4E5F6A7B8C9D0F0 /* GameOverView.swift in Sources */,
+				BF1 /* App.swift in Sources */,
+				BF2 /* GameManager.swift in Sources */,
+				BF3 /* ContentView.swift in Sources */,
+				BF4 /* StartView.swift in Sources */,
+				BF5 /* GameView.swift in Sources */,
+				BF6 /* GameOverView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 /* Begin XCBuildConfiguration section */
-		D101B2C3D4E5F6A7B8C9D0F0 /* Debug */ = {
+		CONFRELEASE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_DECLARATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_C_LANGUAGE_STANDARD = "gnu11";
-				GCC_OPTIMIZATION_LEVEL = 0;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				INFOPLIST_FILE = TapTheCircle/Info.plist;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapthecircle.app;
 				PRODUCT_NAME = $(TARGET_NAME);
-				SKIP_INSTALL = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = -Onone;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		D201B2C3D4E5F6A7B8C9D0F0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_DECLARATIONS = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Manual;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = "gnu11";
-				GCC_OPTIMIZATION_LEVEL = s;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
-				INFOPLIST_FILE = TapTheCircle/Info.plist;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tapthecircle.app;
-				PRODUCT_NAME = $(TARGET_NAME);
-				SKIP_INSTALL = NO;
-				SWIFT_OPTIMIZATION_LEVEL = -O;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -222,11 +137,10 @@
 		};
 /* End XCBuildConfiguration section */
 /* Begin XCConfigurationList section */
-		D301B2C3D4E5F6A7B8C9D0F0 /* Build configuration list for PBXProject "TapTheCircle" */ = {
+		CONF_LIST = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D101B2C3D4E5F6A7B8C9D0F0 /* Debug */,
-				D201B2C3D4E5F6A7B8C9D0F0 /* Release */,
+				CONFRELEASE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

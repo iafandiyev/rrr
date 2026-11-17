@@ -19,10 +19,22 @@ jobs:
         run: |
           xcodebuild -version
 
-      - name: Build the app with swiftc (Release, iOS device, unsigned)
+      - name: Verify project and scheme
         run: |
-          chmod +x build-ipa.sh
-          ./build-ipa.sh > "$RUNNER_TEMP/build.log" 2>&1
+          echo "=== xcodebuild -list ==="
+          xcodebuild -list -project TapTheCircle.xcodeproj 2>&1
+
+      - name: Build the app (Release, generic iOS device, unsigned)
+        run: |
+          xcodebuild \
+            -project TapTheCircle.xcodeproj \
+            -scheme TapTheCircle \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build > "$RUNNER_TEMP/build.log" 2>&1
 
       - name: Show build log on failure
         if: failure()
@@ -37,17 +49,44 @@ jobs:
           path: ${{ runner.temp }}/build.log
           retention-days: 30
 
-      - name: Verify IPA exists
+      - name: Verify the built .app exists
         run: |
-          if [ ! -f "TapTheCircle.ipa" ]; then
-            echo "error: TapTheCircle.ipa not found" >&2
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          if [ ! -d "$APP_PATH" ]; then
+            echo "error: TapTheCircle.app not found at $APP_PATH" >&2
             exit 1
           fi
-          echo "IPA found: TapTheCircle.ipa"
+          echo "Found .app at $APP_PATH"
+
+      - name: Verify Info.plist inside .app
+        run: |
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          if [ ! -f "$APP_PATH/Info.plist" ]; then
+            echo "error: Info.plist not found inside .app bundle" >&2
+            exit 1
+          fi
+          echo "Info.plist found inside .app bundle"
+
+      - name: Package the .app into an unsigned IPA
+        id: package
+        run: |
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          PAYLOAD_DIR="$RUNNER_TEMP/Payload"
+          rm -rf "$PAYLOAD_DIR"
+          mkdir -p "$PAYLOAD_DIR"
+          cp -R "$APP_PATH" "$PAYLOAD_DIR/"
+
+          IPA_PATH="$RUNNER_TEMP/TapTheCircle.ipa"
+          rm -f "$IPA_PATH"
+          (cd "$RUNNER_TEMP" && zip -r -X "TapTheCircle.ipa" Payload)
+
+          echo "ipa_path=$IPA_PATH" >> $GITHUB_OUTPUT
+          ls -lh "$IPA_PATH"
 
       - name: Verify IPA is a valid ZIP archive
         run: |
-          if ! unzip -t TapTheCircle.ipa > /dev/null 2>&1; then
+          IPA_PATH="${{ steps.package.outputs.ipa_path }}"
+          if ! unzip -t "$IPA_PATH" > /dev/null 2>&1; then
             echo "error: IPA is not a valid ZIP archive" >&2
             exit 1
           fi
@@ -55,23 +94,16 @@ jobs:
 
       - name: Verify Payload/TapTheCircle.app inside IPA
         run: |
-          if ! unzip -l TapTheCircle.ipa | grep -q 'Payload/TapTheCircle.app/'; then
+          IPA_PATH="${{ steps.package.outputs.ipa_path }}"
+          if ! unzip -l "$IPA_PATH" | grep -q 'Payload/TapTheCircle.app/'; then
             echo "error: Payload/TapTheCircle.app not found inside IPA" >&2
             exit 1
           fi
           echo "Payload/TapTheCircle.app confirmed inside IPA"
 
-      - name: Verify Info.plist inside .app inside IPA
-        run: |
-          if ! unzip -l TapTheCircle.ipa | grep -q 'Payload/TapTheCircle.app/Info.plist'; then
-            echo "error: Info.plist not found inside .app bundle in IPA" >&2
-            exit 1
-          fi
-          echo "Info.plist found inside .app bundle"
-
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
           name: TapTheCircle-ipa
-          path: TapTheCircle.ipa
+          path: ${{ steps.package.outputs.ipa_path }}
           retention-days: 30

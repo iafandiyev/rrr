@@ -15,28 +15,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show Xcode version and detect installation
+      - name: Show Xcode version
         run: |
-          echo "=== Available Xcode installations ==="
-          ls -d /Applications/Xcode*.app 2>/dev/null || echo "No Xcode.app bundles found"
-          echo ""
-          echo "=== Active xcode-select ==="
-          xcode-select -p 2>/dev/null || echo "xcode-select not set"
-          echo ""
-          echo "=== Active xcodebuild version ==="
           xcodebuild -version
 
-      - name: Build the app (Release, generic iOS device, unsigned)
+      - name: Build the app with swiftc (Release, iOS device, unsigned)
         run: |
-          xcodebuild \
-            -project TapTheCircle.xcodeproj \
-            -scheme TapTheCircle \
-            -configuration Release \
-            -sdk iphoneos \
-            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            build > "$RUNNER_TEMP/build.log" 2>&1
+          chmod +x build-ipa.sh
+          ./build-ipa.sh > "$RUNNER_TEMP/build.log" 2>&1
 
       - name: Show build log on failure
         if: failure()
@@ -51,44 +37,17 @@ jobs:
           path: ${{ runner.temp }}/build.log
           retention-days: 30
 
-      - name: Verify the built .app exists
+      - name: Verify IPA exists
         run: |
-          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
-          if [ ! -d "$APP_PATH" ]; then
-            echo "error: TapTheCircle.app not found at $APP_PATH" >&2
+          if [ ! -f "TapTheCircle.ipa" ]; then
+            echo "error: TapTheCircle.ipa not found" >&2
             exit 1
           fi
-          echo "Found .app at $APP_PATH"
-
-      - name: Verify Info.plist inside .app
-        run: |
-          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
-          if [ ! -f "$APP_PATH/Info.plist" ]; then
-            echo "error: Info.plist not found inside .app bundle" >&2
-            exit 1
-          fi
-          echo "Info.plist found inside .app bundle"
-
-      - name: Package the .app into an unsigned IPA
-        id: package
-        run: |
-          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
-          PAYLOAD_DIR="$RUNNER_TEMP/Payload"
-          rm -rf "$PAYLOAD_DIR"
-          mkdir -p "$PAYLOAD_DIR"
-          cp -R "$APP_PATH" "$PAYLOAD_DIR/"
-
-          IPA_PATH="$RUNNER_TEMP/TapTheCircle.ipa"
-          rm -f "$IPA_PATH"
-          (cd "$RUNNER_TEMP" && zip -r -X "TapTheCircle.ipa" Payload)
-
-          echo "ipa_path=$IPA_PATH" >> $GITHUB_OUTPUT
-          ls -lh "$IPA_PATH"
+          echo "IPA found: TapTheCircle.ipa"
 
       - name: Verify IPA is a valid ZIP archive
         run: |
-          IPA_PATH="${{ steps.package.outputs.ipa_path }}"
-          if ! unzip -t "$IPA_PATH" > /dev/null 2>&1; then
+          if ! unzip -t TapTheCircle.ipa > /dev/null 2>&1; then
             echo "error: IPA is not a valid ZIP archive" >&2
             exit 1
           fi
@@ -96,16 +55,23 @@ jobs:
 
       - name: Verify Payload/TapTheCircle.app inside IPA
         run: |
-          IPA_PATH="${{ steps.package.outputs.ipa_path }}"
-          if ! unzip -l "$IPA_PATH" | grep -q 'Payload/TapTheCircle.app/'; then
+          if ! unzip -l TapTheCircle.ipa | grep -q 'Payload/TapTheCircle.app/'; then
             echo "error: Payload/TapTheCircle.app not found inside IPA" >&2
             exit 1
           fi
           echo "Payload/TapTheCircle.app confirmed inside IPA"
 
+      - name: Verify Info.plist inside .app inside IPA
+        run: |
+          if ! unzip -l TapTheCircle.ipa | grep -q 'Payload/TapTheCircle.app/Info.plist'; then
+            echo "error: Info.plist not found inside .app bundle in IPA" >&2
+            exit 1
+          fi
+          echo "Info.plist found inside .app bundle"
+
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
           name: TapTheCircle-ipa
-          path: ${{ steps.package.outputs.ipa_path }}
+          path: TapTheCircle.ipa
           retention-days: 30

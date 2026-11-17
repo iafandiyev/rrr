@@ -49,8 +49,20 @@ jobs:
           echo "=== Active xcodebuild version ==="
           xcodebuild -version
 
+      - name: Diagnose project and schemes
+        run: |
+          echo "=== xcodebuild -list ==="
+          xcodebuild -list -project TapTheCircle.xcodeproj 2>&1 || true
+          echo ""
+          echo "=== Project files ==="
+          ls -la TapTheCircle.xcodeproj/
+          echo ""
+          echo "=== Scheme file ==="
+          cat TapTheCircle.xcodeproj/xcshareddata/xcschemes/TapTheCircle.xcscheme
+
       - name: Build the app (Release, generic iOS device, unsigned)
         run: |
+          set -x
           xcodebuild \
             -project TapTheCircle.xcodeproj \
             -scheme TapTheCircle \

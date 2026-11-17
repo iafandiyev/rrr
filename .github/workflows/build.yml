@@ -19,9 +19,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 15
+      - name: Select a compatible Xcode
         run: |
-          sudo xcode-select -switch /Applications/Xcode_15.app/Contents/Developer
+          echo "=== Available Xcode installations ==="
+          ls -d /Applications/Xcode*.app 2>/dev/null || echo "No Xcode.app bundles found in /Applications"
+          echo ""
+          echo "=== xcode-select path ==="
+          xcode-select -p 2>/dev/null || echo "xcode-select not set"
+          echo ""
+          echo "=== xcodebuild versions ==="
+          for xc in /Applications/Xcode*.app; do
+            if [ -d "$xc" ]; then
+              echo "--- $xc ---"
+              "$xc/Contents/Developer/usr/bin/xcodebuild" -version 2>/dev/null || echo "  (could not read version)"
+            fi
+          done
+          echo ""
+          # Prefer an Xcode 15 installation; fall back to the system-selected Xcode.
+          SELECTED_XCODE=""
+          for xc in /Applications/Xcode_15*.app /Applications/Xcode*.app; do
+            if [ -d "$xc" ] && [ -x "$xc/Contents/Developer/usr/bin/xcodebuild" ]; then
+              SELECTED_XCODE="$xc"
+              break
+            fi
+          done
+          if [ -z "$SELECTED_XCODE" ]; then
+            echo "error: No compatible Xcode installation found" >&2
+            exit 1
+          fi
+          echo "Selected Xcode: $SELECTED_XCODE"
+          sudo xcode-select -switch "$SELECTED_XCODE/Contents/Developer"
+          echo ""
+          echo "=== Active xcodebuild version ==="
           xcodebuild -version
 
       - name: Build the app (Release, generic iOS device, unsigned)
@@ -45,6 +74,15 @@ jobs:
             exit 1
           fi
           echo "Found .app at $APP_PATH"
+
+      - name: Verify Info.plist inside .app
+        run: |
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
+          if [ ! -f "$APP_PATH/Info.plist" ]; then
+            echo "error: Info.plist not found inside .app bundle" >&2
+            exit 1
+          fi
+          echo "Info.plist found inside .app bundle"
 
       - name: Package the .app into an unsigned IPA
         id: package

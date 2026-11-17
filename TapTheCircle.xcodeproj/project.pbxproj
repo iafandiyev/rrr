@@ -12,7 +12,6 @@
 		B401B2C3D4E5F6A7B8C9D0F0 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A401B2C3D4E5F6A7B8C9D0F0 /* StartView.swift */; };
 		B501B2C3D4E5F6A7B8C9D0F0 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A501B2C3D4E5F6A7B8C9D0F0 /* GameView.swift */; };
 		B601B2C3D4E5F6A7B8C9D0F0 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A601B2C3D4E5F6A7B8C9D0F0 /* GameOverView.swift */; };
-		F101B2C3D4E5F6A7B8C9D0F0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9101B2C3D4E5F6A7B8C9D0E8 /* Info.plist */; };
 /* End PBXBuildFile section */
 /* Begin PBXFileReference section */
 		9001B2C3D4E5F6A7B8C9D0E7 /* TapTheCircle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TapTheCircle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,9 +62,7 @@
 		); };
 /* End PBXProject section */
 /* Begin PBXResourcesBuildPhase section */
-		C201B2C3D4E5F6A7B8C9D0F0 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (
-			F101B2C3D4E5F6A7B8C9D0F0 /* Info.plist in Resources */,
-		); runOnlyForDeploymentPostprocessing = 0; };
+		C201B2C3D4E5F6A7B8C9D0F0 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 /* Begin PBXSourcesBuildPhase section */
 		C101B2C3D4E5F6A7B8C9D0F0 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (

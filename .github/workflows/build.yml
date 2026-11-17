@@ -20,32 +20,6 @@ jobs:
           echo "=== Available Xcode installations ==="
           ls -d /Applications/Xcode*.app 2>/dev/null || echo "No Xcode.app bundles found in /Applications"
           echo ""
-          echo "=== xcode-select path ==="
-          xcode-select -p 2>/dev/null || echo "xcode-select not set"
-          echo ""
-          echo "=== xcodebuild versions ==="
-          for xc in /Applications/Xcode*.app; do
-            if [ -d "$xc" ]; then
-              echo "--- $xc ---"
-              "$xc/Contents/Developer/usr/bin/xcodebuild" -version 2>/dev/null || echo "  (could not read version)"
-            fi
-          done
-          echo ""
-          # Prefer an Xcode 15 installation; fall back to the system-selected Xcode.
-          SELECTED_XCODE=""
-          for xc in /Applications/Xcode_15*.app /Applications/Xcode*.app; do
-            if [ -d "$xc" ] && [ -x "$xc/Contents/Developer/usr/bin/xcodebuild" ]; then
-              SELECTED_XCODE="$xc"
-              break
-            fi
-          done
-          if [ -z "$SELECTED_XCODE" ]; then
-            echo "error: No compatible Xcode installation found" >&2
-            exit 1
-          fi
-          echo "Selected Xcode: $SELECTED_XCODE"
-          sudo xcode-select -switch "$SELECTED_XCODE/Contents/Developer"
-          echo ""
           echo "=== Active xcodebuild version ==="
           xcodebuild -version
 
@@ -53,30 +27,32 @@ jobs:
         run: |
           echo "=== xcodebuild -list ==="
           xcodebuild -list -project TapTheCircle.xcodeproj 2>&1 || true
-          echo ""
-          echo "=== Project files ==="
-          ls -la TapTheCircle.xcodeproj/
-          echo ""
-          echo "=== Scheme file ==="
-          cat TapTheCircle.xcodeproj/xcshareddata/xcschemes/TapTheCircle.xcscheme
 
       - name: Build the app (Release, generic iOS device, unsigned)
         run: |
           set -x
-          xcodebuild archive \
+          xcodebuild -target TapTheCircle \
             -project TapTheCircle.xcodeproj \
-            -scheme TapTheCircle \
             -configuration Release \
-            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
-            -archivePath "$RUNNER_TEMP/TapTheCircle.xcarchive" \
             -sdk iphoneos \
+            -arch arm64 \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+            CODE_SIGN_IDENTITY="" \
+            build 2>&1 | tee "$RUNNER_TEMP/build.log" || true
+
+      - name: Upload build log (for debugging)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: ${{ runner.temp }}/build.log
+          retention-days: 30
 
       - name: Verify the built .app exists
         run: |
-          APP_PATH="$RUNNER_TEMP/TapTheCircle.xcarchive/Products/Applications/TapTheCircle.app"
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
           if [ ! -d "$APP_PATH" ]; then
             echo "error: TapTheCircle.app not found at $APP_PATH" >&2
             exit 1
@@ -85,7 +61,7 @@ jobs:
 
       - name: Verify Info.plist inside .app
         run: |
-          APP_PATH="$RUNNER_TEMP/TapTheCircle.xcarchive/Products/Applications/TapTheCircle.app"
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
           if [ ! -f "$APP_PATH/Info.plist" ]; then
             echo "error: Info.plist not found inside .app bundle" >&2
             exit 1
@@ -95,7 +71,7 @@ jobs:
       - name: Package the .app into an unsigned IPA
         id: package
         run: |
-          APP_PATH="$RUNNER_TEMP/TapTheCircle.xcarchive/Products/Applications/TapTheCircle.app"
+          APP_PATH="$RUNNER_TEMP/DerivedData/Build/Products/Release-iphoneos/TapTheCircle.app"
           PAYLOAD_DIR="$RUNNER_TEMP/Payload"
           rm -rf "$PAYLOAD_DIR"
           mkdir -p "$PAYLOAD_DIR"

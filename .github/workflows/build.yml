@@ -45,6 +45,7 @@ jobs:
           echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
 
       - name: Package the .app into an unsigned IPA
+        id: package
         run: |
           APP_PATH="${{ steps.locate_app.outputs.app_path }}"
           PAYLOAD_DIR="$RUNNER_TEMP/Payload"
@@ -64,5 +65,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: TapTheCircle-ipa
-          path: ${{ steps.locate_app.outputs.ipa_path || steps.package.outputs.ipa_path }}
+          path: ${{ steps.package.outputs.ipa_path }}
           retention-days: 30

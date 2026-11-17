@@ -26,8 +26,12 @@ jobs:
       - name: Build the app (simplest possible invocation)
         run: |
           xcodebuild -project TapTheCircle.xcodeproj \
-            -target TapTheCircle \
+            -scheme TapTheCircle \
             -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
             build > "$RUNNER_TEMP/build.log" 2>&1
 
       - name: Show build log on failure
